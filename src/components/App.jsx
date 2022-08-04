@@ -5,11 +5,19 @@ export class App extends Component{
   state = {
     good: 0,
     neutral: 0,
-    bad: 6
+    bad: 0,
+  };
+
+  handleClick = key => {
+    this.setState(prevState => {
+      return {
+        [key]: prevState[key] + 1,
+      };
+    });
   };
 
   countTotalFeedback = () => {
-    return Object.values(this.state).reduce((acc, value) => acc + value, 0)
+    return Object.values(this.state).reduce((acc, value) => acc + value, 0);
   };
 
   countPositiveFeedbackPercentage = () => {
@@ -28,7 +36,7 @@ export class App extends Component{
         <Title>Please leave feedback</Title>
         <FeedbackOptions>
           {Object.keys(this.state).map(key =>
-            <button key={key}>{key}</button>
+            <button key={key} onClick={()=>this.handleClick(key)}>{key}</button>
             )}
         </FeedbackOptions>
         <Title>Statistics</Title>
