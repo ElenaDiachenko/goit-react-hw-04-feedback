@@ -48,7 +48,7 @@ export class App extends Component{
         {total === 0 ?
           (<Notification message="There is no feedback" />
           ) : (
-          <Statistics ={options} total={total} positivePercentage={positivePercentage}></Statistics>
+          <Statistics options={options} total={total} positivePercentage={positivePercentage}></Statistics>
           )}
         </Section>
       </>
