@@ -1,5 +1,7 @@
 import { Component } from 'react';
-import { Container,Title,FeedbackOptions,Statistics } from './App.styled';
+import { Container, Title} from './App.styled';
+import { Statistics } from './Statistics/Statistics';
+import { FeedbackOptions } from './FeedbackOptions/FeedbackOptions';
 
 export class App extends Component{
   state = {
@@ -8,10 +10,10 @@ export class App extends Component{
     bad: 0,
   };
 
-  handleClick = key => {
+  hundleClickFeedback = option => {
     this.setState(prevState => {
       return {
-        [key]: prevState[key] + 1,
+        [option]: prevState[option] + 1,
       };
     });
   };
@@ -29,25 +31,18 @@ export class App extends Component{
   
   
   render() {
-    const test = this.countPositiveFeedbackPercentage()
-    console.log(test)
+    const options = this.state;
+    const total = this.countTotalFeedback();
+    const positivePercentage = this.countPositiveFeedbackPercentage();
+    const hundleClickFeedback = this.hundleClickFeedback;
+    
     return (
       <Container>
         <Title>Please leave feedback</Title>
-        <FeedbackOptions>
-          {Object.keys(this.state).map(key =>
-            <button key={key} onClick={()=>this.handleClick(key)}>{key}</button>
-            )}
-        </FeedbackOptions>
+        <FeedbackOptions options={options} onLeaveFeedback={hundleClickFeedback}/>
+        
         <Title>Statistics</Title>
-        <Statistics>
-          {Object.entries(this.state).map(el => (
-            <p key={el[0]}>{el[0].charAt(0).toUpperCase()+ el[0].slice(1)}: {el[1]}</p>
-          ))}
-          <p>Total: {this.countTotalFeedback()}</p>
-          <p>Positive feedback: {this.countPositiveFeedbackPercentage()}</p>
-        </Statistics>
-
+         <Statistics options={options} total={total} positivePercentage={positivePercentage}></Statistics>
       </Container>
     )
   }
