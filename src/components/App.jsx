@@ -1,3 +1,4 @@
+import { GlobalStyle } from "./GlobalStyle";
 import { Component } from 'react';
 import { Section } from './Section/Section';
 import { Statistics } from './Statistics/Statistics';
@@ -39,6 +40,7 @@ export class App extends Component{
     
     return (
       <>
+        <GlobalStyle/>
         <Section title="Please leave feedback">
           <FeedbackOptions options={options} onLeaveFeedback={hundleClickFeedback} />
         </Section>
