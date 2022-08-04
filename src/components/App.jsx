@@ -1,7 +1,8 @@
 import { Component } from 'react';
-import { Container, Title} from './App.styled';
+import { Section } from './Section/Section';
 import { Statistics } from './Statistics/Statistics';
 import { FeedbackOptions } from './FeedbackOptions/FeedbackOptions';
+import { Notification } from './Notification/Notification';
 
 export class App extends Component{
   state = {
@@ -37,13 +38,18 @@ export class App extends Component{
     const hundleClickFeedback = this.hundleClickFeedback;
     
     return (
-      <Container>
-        <Title>Please leave feedback</Title>
-        <FeedbackOptions options={options} onLeaveFeedback={hundleClickFeedback}/>
-        
-        <Title>Statistics</Title>
-         <Statistics options={options} total={total} positivePercentage={positivePercentage}></Statistics>
-      </Container>
+      <>
+        <Section title="Please leave feedback">
+          <FeedbackOptions options={options} onLeaveFeedback={hundleClickFeedback} />
+        </Section>
+        <Section title="Statictics">
+        {total === 0 ?
+          (<Notification message="There is no feedback" />
+          ) : (
+          <Statistics options={options} total={total} positivePercentage={positivePercentage}></Statistics>
+          )}
+        </Section>
+      </>
     )
   }
 }
