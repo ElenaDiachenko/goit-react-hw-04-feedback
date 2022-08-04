@@ -21,6 +21,6 @@ export const FeedbackButton = styled.button`
   
   &:hover{
     background-color:grey;
-    
+    color:white;
   }
   `;
