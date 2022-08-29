@@ -6,33 +6,23 @@ import { FeedbackOptions } from './FeedbackOptions/FeedbackOptions';
 import { Notification } from './Notification/Notification';
 
 export const App = () => {
-  const [good, setGood] = useState(0);
-  const [neutral, setNeutral] = useState(0);
-  const [bad, setBad] = useState(0);
-  const options = { good, neutral, bad };
+  const [feedback, setFeedback] = useState({
+    good: 0,
+    bad: 0,
+    neutral: 0,
+  });
 
-  const hundleClickFeedback = option => {
-    switch (option) {
-      case 'good':
-        setGood(prevGood => prevGood + 1);
-        break;
-      case 'neutral':
-        setNeutral(prevNeutral => prevNeutral + 1);
-        break;
-      case 'bad':
-        setBad(prevBad => prevBad + 1);
-        break;
-      default:
-        return;
-    }
+  const hundleClickFeedback = type => {
+    setFeedback(state => ({ ...state, [type]: state[type] + 1 }));
   };
+
   const countTotalFeedback = () => {
-    return good + bad + neutral;
+    return Object.values(feedback).reduce((acc, item) => acc + item, 0);
   };
 
   const countPositiveFeedbackPercentage = () => {
     const totalFeedback = countTotalFeedback();
-    const goodFeedback = good;
+    const goodFeedback = feedback.good;
 
     return `${
       goodFeedback > 0
@@ -49,7 +39,7 @@ export const App = () => {
       <GlobalStyle />
       <Section title="Please leave feedback">
         <FeedbackOptions
-          options={options}
+          options={feedback}
           onLeaveFeedback={hundleClickFeedback}
         />
       </Section>
@@ -58,7 +48,7 @@ export const App = () => {
           <Notification message="There is no feedback" />
         ) : (
           <Statistics
-            options={options}
+            options={feedback}
             total={total}
             positivePercentage={positivePercentage}
           ></Statistics>
@@ -67,3 +57,66 @@ export const App = () => {
     </>
   );
 };
+
+// export const App = () => {
+//   const [good, setGood] = useState(0);
+//   const [neutral, setNeutral] = useState(0);
+//   const [bad, setBad] = useState(0);
+//   const options = { good, neutral, bad };
+
+//   const hundleClickFeedback = option => {
+//     switch (option) {
+//       case 'good':
+//         setGood(prevGood => prevGood + 1);
+//         break;
+//       case 'neutral':
+//         setNeutral(prevNeutral => prevNeutral + 1);
+//         break;
+//       case 'bad':
+//         setBad(prevBad => prevBad + 1);
+//         break;
+//       default:
+//         return;
+//     }
+//   };
+//   const countTotalFeedback = () => {
+//     return good + bad + neutral;
+//   };
+
+//   const countPositiveFeedbackPercentage = () => {
+//     const totalFeedback = countTotalFeedback();
+//     const goodFeedback = good;
+
+//     return `${
+//       goodFeedback > 0
+//         ? Math.ceil((goodFeedback / totalFeedback) * 100)
+//         : goodFeedback
+//     }%`;
+//   };
+
+//   const total = countTotalFeedback();
+//   const positivePercentage = countPositiveFeedbackPercentage();
+
+//   return (
+//     <>
+//       <GlobalStyle />
+//       <Section title="Please leave feedback">
+//         <FeedbackOptions
+//           options={options}
+//           onLeaveFeedback={hundleClickFeedback}
+//         />
+//       </Section>
+//       <Section title="Statictics">
+//         {total === 0 ? (
+//           <Notification message="There is no feedback" />
+//         ) : (
+//           <Statistics
+//             options={options}
+//             total={total}
+//             positivePercentage={positivePercentage}
+//           ></Statistics>
+//         )}
+//       </Section>
+//     </>
+//   );
+// };
